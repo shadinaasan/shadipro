@@ -56,13 +56,13 @@ export default function Page() {
                 <circle cx="17" cy="17" r="2"/>
               </svg>
             </div>
-            <h1 className="text-xl font-semibold">Vehicle Logbook</h1>
+            <h1 className="text-xl font-semibold">Körjournal</h1>
           </div>
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl">Welcome back</CardTitle>
+              <CardTitle className="text-2xl">Välkommen tillbaka</CardTitle>
               <CardDescription>
-                Sign in to your account to continue
+                Logga in på ditt konto för att fortsätta
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -91,16 +91,16 @@ export default function Page() {
                   </div>
                   {error && <p className="text-sm text-red-500">{error}</p>}
                   <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? 'Logging in...' : 'Login'}
+                    {isLoading ? 'Loggar in...' : 'Logga in'}
                   </Button>
                 </div>
                 <div className="mt-4 text-center text-sm">
-                  Don&apos;t have an account?{' '}
+                  Har du inget konto?{' '}
                   <Link
                     href="/auth/sign-up"
                     className="underline underline-offset-4"
                   >
-                    Sign up
+                    Registrera dig
                   </Link>
                 </div>
               </form>

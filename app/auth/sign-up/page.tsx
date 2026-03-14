@@ -30,7 +30,7 @@ export default function Page() {
     setError(null)
 
     if (password !== repeatPassword) {
-      setError('Passwords do not match')
+      setError('Lösenorden matchar inte')
       setIsLoading(false)
       return
     }
@@ -67,12 +67,12 @@ export default function Page() {
                 <circle cx="17" cy="17" r="2"/>
               </svg>
             </div>
-            <h1 className="text-xl font-semibold">Vehicle Logbook</h1>
+            <h1 className="text-xl font-semibold">Körjournal</h1>
           </div>
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl">Create account</CardTitle>
-              <CardDescription>Get started with your vehicle logbook</CardDescription>
+              <CardTitle className="text-2xl">Skapa konto</CardTitle>
+              <CardDescription>Kom igång med din körjournal</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSignUp}>
@@ -102,7 +102,7 @@ export default function Page() {
                   </div>
                   <div className="grid gap-2">
                     <div className="flex items-center">
-                      <Label htmlFor="repeat-password">Repeat Password</Label>
+                      <Label htmlFor="repeat-password">Upprepa lösenord</Label>
                     </div>
                     <Input
                       id="repeat-password"
@@ -114,16 +114,16 @@ export default function Page() {
                   </div>
                   {error && <p className="text-sm text-red-500">{error}</p>}
                   <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? 'Creating an account...' : 'Sign up'}
+                    {isLoading ? 'Skapar konto...' : 'Registrera dig'}
                   </Button>
                 </div>
                 <div className="mt-4 text-center text-sm">
-                  Already have an account?{' '}
+                  Har du redan ett konto?{' '}
                   <Link
                     href="/auth/login"
                     className="underline underline-offset-4"
                   >
-                    Login
+                    Logga in
                   </Link>
                 </div>
               </form>

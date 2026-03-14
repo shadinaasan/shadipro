@@ -7,8 +7,8 @@ import './globals.css'
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: 'Vehicle Logbook - Track Your Trips, Fuel & Maintenance',
-  description: 'A comprehensive vehicle logbook for tracking trips, fuel consumption, maintenance, and vehicle journals. Perfect for business and personal use.',
+  title: 'Körjournal - Hantera dina resor och fordon',
+  description: 'En omfattande körjournal för att spåra resor och fordon. Perfekt för både företag och privat bruk.',
   generator: 'v0.app',
   icons: {
     icon: [
