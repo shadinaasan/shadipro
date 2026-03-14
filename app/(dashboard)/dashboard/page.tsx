@@ -10,15 +10,18 @@ export default async function DashboardPage() {
   const user = data?.user
 
   // Fetch dashboard data in parallel
-  const [
-    { data: vehicles },
-    { data: trips },
-    { data: recentTrips },
-  ] = await Promise.all([
+  const results = await Promise.all([
     supabase.from("vehicles").select("*"),
     supabase.from("trips").select("*"),
     supabase.from("trips").select("*, vehicle:vehicles(name)").order("date", { ascending: false }).limit(5),
-  ])
+  ]).catch(err => {
+    console.error("Dashboard data fetch error:", err)
+    return [ { data: [] }, { data: [] }, { data: [] } ]
+  })
+
+  const vehicles = results[0].data || []
+  const trips = results[1].data || []
+  const recentTrips = results[2].data || []
 
   const totalDistance = trips?.reduce((sum, trip) => sum + (trip.distance || 0), 0) || 0
 

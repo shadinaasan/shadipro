@@ -66,7 +66,9 @@ export function TripList({ trips, vehicles }: TripListProps) {
           {trips.map((trip) => (
             <TableRow key={trip.id}>
               <TableCell className="font-medium">
-                {format(new Date(trip.date), "PP")}
+                {trip.date && !isNaN(new Date(trip.date).getTime()) 
+                  ? format(new Date(trip.date), "PP") 
+                  : "—"}
               </TableCell>
               <TableCell>{trip.vehicle?.name || "—"}</TableCell>
               <TableCell>
@@ -75,12 +77,12 @@ export function TripList({ trips, vehicles }: TripListProps) {
                     {trip.start_location || "—"} → {trip.destination || "—"}
                   </span>
                   <span className="text-xs text-muted-foreground">
-                    {trip.odometer_start.toLocaleString()} → {trip.odometer_end.toLocaleString()} km
+                    {(trip.odometer_start || 0).toLocaleString()} → {(trip.odometer_end || 0).toLocaleString()} km
                   </span>
                 </div>
               </TableCell>
               <TableCell className="text-right font-medium">
-                {trip.distance.toLocaleString()} km
+                {(trip.distance || 0).toLocaleString()} km
               </TableCell>
               <TableCell>
                 <Badge 

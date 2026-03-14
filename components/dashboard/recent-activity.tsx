@@ -60,7 +60,9 @@ export function RecentActivity({ recentTrips }: RecentActivityProps) {
                     </p>
                   </div>
                   <span className="text-xs text-muted-foreground whitespace-nowrap">
-                    {formatDistanceToNow(new Date(activity.date), { addSuffix: true })}
+                    {activity.date && !isNaN(new Date(activity.date).getTime()) 
+                      ? formatDistanceToNow(new Date(activity.date), { addSuffix: true })
+                      : "—"}
                   </span>
                 </div>
               ))}
