@@ -50,10 +50,10 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
 
       if (userError) throw userError
 
-      toast.success("Profile updated successfully")
+      toast.success("Profilen har uppdaterats")
       router.refresh()
     } catch (error) {
-      toast.error("Failed to update profile")
+      toast.error("Kunde inte uppdatera profilen")
       console.error(error)
     } finally {
       setLoading(false)
@@ -64,13 +64,13 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
     <Card>
       <form onSubmit={handleSubmit}>
         <CardHeader>
-          <CardTitle>Personal Information</CardTitle>
-          <CardDescription>Update your personal details here.</CardDescription>
+          <CardTitle>Personlig information</CardTitle>
+          <CardDescription>Uppdatera dina personuppgifter här.</CardDescription>
         </CardHeader>
         <CardContent>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <FieldLabel htmlFor="email">E-post</FieldLabel>
               <Input
                 id="email"
                 type="email"
@@ -80,7 +80,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
               />
             </Field>
             <Field>
-              <FieldLabel htmlFor="full_name">Full Name</FieldLabel>
+              <FieldLabel htmlFor="full_name">Fullständigt namn</FieldLabel>
               <Input
                 id="full_name"
                 name="full_name"
@@ -93,7 +93,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
         <CardFooter className="border-t px-6 py-4">
           <Button type="submit" disabled={loading}>
             {loading && <Spinner className="mr-2" />}
-            Save Changes
+            Spara ändringar
           </Button>
         </CardFooter>
       </form>

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
+// Force build to apply environment variables
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
