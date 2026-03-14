@@ -5,29 +5,38 @@ import { RecentActivity } from "@/components/dashboard/recent-activity"
 import { QuickActions } from "@/components/dashboard/quick-actions"
 
 export default async function DashboardPage() {
-  const supabase = await createClient()
-  const { data } = await supabase.auth.getUser()
-  const user = data?.user
+  let user = null
+  let vehicles = []
+  let trips = []
+  let recentTrips = []
 
-  // Fetch dashboard data in parallel
-  const results = await Promise.all([
-    supabase.from("vehicles").select("*"),
-    supabase.from("trips").select("*"),
-    supabase.from("trips").select("*, vehicle:vehicles(name)").order("date", { ascending: false }).limit(5),
-  ]).catch(err => {
-    console.error("Dashboard data fetch error:", err)
-    return [ { data: [] }, { data: [] }, { data: [] } ]
-  })
+  try {
+    const supabase = await createClient()
+    const { data: userData } = await supabase.auth.getUser()
+    user = userData?.user
 
-  const vehicles = results[0].data || []
-  const trips = results[1].data || []
-  const recentTrips = results[2].data || []
+    // Fetch dashboard data in parallel
+    const results = await Promise.all([
+      supabase.from("vehicles").select("*"),
+      supabase.from("trips").select("*"),
+      supabase.from("trips").select("*, vehicle:vehicles(name)").order("date", { ascending: false }).limit(5),
+    ]).catch(err => {
+      console.error("Dashboard data fetch promise error:", err)
+      return [ { data: [] }, { data: [] }, { data: [] } ]
+    })
 
-  const totalDistance = trips?.reduce((sum, trip) => sum + (trip.distance || 0), 0) || 0
+    vehicles = results[0]?.data || []
+    trips = results[1]?.data || []
+    recentTrips = results[2]?.data || []
+  } catch (error) {
+    console.error("Dashboard page master crash:", error)
+  }
+
+  const totalDistance = trips.reduce((sum, trip) => sum + (Number(trip.distance) || 0), 0)
 
   const stats = {
-    totalVehicles: vehicles?.length || 0,
-    totalTrips: trips?.length || 0,
+    totalVehicles: vehicles.length,
+    totalTrips: trips.length,
     totalDistance,
   }
 

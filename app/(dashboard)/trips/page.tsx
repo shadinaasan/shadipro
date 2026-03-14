@@ -18,37 +18,47 @@ interface TripsPageProps {
 
 export default async function TripsPage({ searchParams }: TripsPageProps) {
   const params = await searchParams
-  const supabase = await createClient()
-  
-  const { data: vehicles } = await supabase
-    .from("vehicles")
-    .select("id, name, current_odometer")
-    .order("name")
+  let vehicles = []
+  let trips = []
 
-  let query = supabase
-    .from("trips")
-    .select("*, vehicle:vehicles(id, name, registration_number)")
-    .order("date", { ascending: false })
+  try {
+    const supabase = await createClient()
+    
+    const { data: vehiclesData } = await supabase
+      .from("vehicles")
+      .select("id, name, current_odometer")
+      .order("name")
+    
+    vehicles = vehiclesData || []
 
-  if (params.vehicle) {
-    query = query.eq("vehicle_id", params.vehicle)
-  }
-  if (params.category) {
-    query = query.eq("category", params.category)
-  }
-  if (params.from) {
-    query = query.gte("date", params.from)
-  }
-  if (params.to) {
-    query = query.lte("date", params.to)
-  }
+    let query = supabase
+      .from("trips")
+      .select("*, vehicle:vehicles(id, name, registration_number)")
+      .order("date", { ascending: false })
 
-  const { data: trips } = await query
+    if (params.vehicle) {
+      query = query.eq("vehicle_id", params.vehicle)
+    }
+    if (params.category) {
+      query = query.eq("category", params.category)
+    }
+    if (params.from) {
+      query = query.gte("date", params.from)
+    }
+    if (params.to) {
+      query = query.lte("date", params.to)
+    }
+
+    const { data: tripsData } = await query
+    trips = tripsData || []
+  } catch (error) {
+    console.error("Trips page master crash:", error)
+  }
 
   // Calculate totals
-  const totalDistance = trips?.reduce((sum, trip) => sum + (trip.distance || 0), 0) || 0
-  const businessTrips = trips?.filter(t => t.category === "business") || []
-  const businessDistance = businessTrips.reduce((sum, trip) => sum + (trip.distance || 0), 0)
+  const totalDistance = trips.reduce((sum, trip) => sum + (Number(trip.distance) || 0), 0)
+  const businessTrips = trips.filter(t => t.category === "business")
+  const businessDistance = businessTrips.reduce((sum, trip) => sum + (Number(trip.distance) || 0), 0)
 
   return (
     <>

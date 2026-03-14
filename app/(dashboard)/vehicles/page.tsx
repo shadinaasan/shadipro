@@ -6,11 +6,19 @@ import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 
 export default async function VehiclesPage() {
-  const supabase = await createClient()
-  const { data: vehicles, error } = await supabase
-    .from("vehicles")
-    .select("*")
-    .order("created_at", { ascending: false })
+  let vehicles = []
+
+  try {
+    const supabase = await createClient()
+    const { data: vehiclesData } = await supabase
+      .from("vehicles")
+      .select("*")
+      .order("created_at", { ascending: false })
+    
+    vehicles = vehiclesData || []
+  } catch (error) {
+    console.error("Vehicles page master crash:", error)
+  }
 
   return (
     <>
